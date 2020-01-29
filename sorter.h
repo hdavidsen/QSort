@@ -1,11 +1,13 @@
 #ifndef SORTER_H
 #define SORTER_H
 
+#include "mainwindow.h"
 
-class sorter
-{
+
+class Sorter : public MainWindow {
 public:
-    sorter();
+    Sorter(QWidget *parent = nullptr);
+    ~Sorter();
 };
 
 #endif // SORTER_H

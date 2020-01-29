@@ -9,8 +9,7 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -26,7 +25,8 @@ private slots:
     void selectionSort();
     void bubbleSort();
 
-private:
+// TODO: figure out what doesn't need to be public
+public:
     Ui::MainWindow *ui;
     QTimer *m_timer;
     QCustomPlot *customPlot;

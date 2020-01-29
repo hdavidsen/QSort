@@ -1,6 +1,9 @@
 #include "sorter.h"
 
-sorter::sorter()
-{
+Sorter::Sorter(QWidget *parent) : MainWindow(parent) {
+
+}
+
+Sorter::~Sorter() {
 
 }
