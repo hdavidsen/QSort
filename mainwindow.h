@@ -19,22 +19,23 @@ public:
      void setSorter(int idx);
      void updateGUI();
 
+     // TODO: figure out how to make this private again
+     QTimer *m_timer;
+     QVector<double> keyData, valueData, resetData;
+     int arraySize;
+
+
 private slots:
     void startButton();
-    void resetButton();
-    void selectionSort();
-    void bubbleSort();
+    virtual void resetButton() = 0;
+    virtual void selectionSort() = 0;
+    virtual void bubbleSort() = 0;
 
-// TODO: figure out what doesn't need to be public
-public:
+private:
     Ui::MainWindow *ui;
-    QTimer *m_timer;
     QCustomPlot *customPlot;
     QCPBars *myBars;
     QCPTextElement *title;
-    QVector<double> keyData, valueData, resetData;
-    int counter, comparator, selector, arraySize = 0;
-    double swap1, swap2 = 0;
     bool isMoved;
 };
 

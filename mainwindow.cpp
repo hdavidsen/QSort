@@ -14,6 +14,10 @@ MainWindow::MainWindow(QWidget *parent) :
    // this->setCentralWidget(ui->grid);
     customPlot = ui->graphWidget;
 
+    // Setting up start & reset buttons
+    connect(ui->startButton, SIGNAL(released()), this, SLOT(startButton()));
+    connect(ui->resetButton, SIGNAL(released()), this, SLOT(resetButton()));
+
     // Setting up combo boxes
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index){ setSorter(index); });
@@ -41,11 +45,6 @@ MainWindow::MainWindow(QWidget *parent) :
     m_timer = new QTimer();
     connect(m_timer, SIGNAL(timeout()), this, SLOT(selectionSort()));
 
-    // Setting up start & reset buttons
-    connect(ui->startButton, SIGNAL(released()), this, SLOT(startButton()));
-    connect(ui->resetButton, SIGNAL(released()), this, SLOT(resetButton()));
-
-
     // Setting up data points
     // TODO: take the data from somewhere else (lav prio)
     valueData << 18 << 12 << 20 << 8 << 22 << 2 << 14 << 6 << 10 << 16 << 4;
@@ -61,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // TODO: Remove when everything works (potentially move to GUI display)
     std::cout << "Before:\n";
     for(int k=0; k<arraySize; k++){
-        std::cout << valueData[k] << "    " << std::flush;
+        std::cout << valueData[k] << " " << std::flush;
     }
 }
 
@@ -78,7 +77,7 @@ void MainWindow::updateGUI() {
 void MainWindow::setSorter(int idx) {
     if(idx == 0){
         if(isMoved) {
-            ui->textBrowser->resize(141, 281);
+            ui->textBrowser->resize(140, 290);
             ui->textBrowser->move(0, 35);
             isMoved = false;
         }
@@ -88,7 +87,7 @@ void MainWindow::setSorter(int idx) {
         customPlot->replot();
     }else if(idx == 1){
         if(isMoved) {
-            ui->textBrowser->resize(141, 281);
+            ui->textBrowser->resize(140, 290);
             ui->textBrowser->move(0, 35);
             isMoved = false;
         }
@@ -98,12 +97,14 @@ void MainWindow::setSorter(int idx) {
         customPlot->replot();
     }else if(idx == 2){
         if(!isMoved) {
-            ui->textBrowser->resize(141, 251);
+            ui->textBrowser->resize(140, 255);
             ui->textBrowser->move(0, 70);
             isMoved = true;
         }
         title->setText("Quick sort?");
         customPlot->replot();
+       // m_timer->disconnect();
+       // connect(m_timer, SIGNAL(timeout()), this,SLOT(display()));
     }
 }
 
@@ -113,106 +114,4 @@ void MainWindow::startButton() {
     m_timer->start(delay);
 }
 
-void MainWindow::resetButton() {
-    counter = 0;
-    selector = 0;
-    valueData = resetData;
-    updateGUI();
-}
 
-void MainWindow::selectionSort() {
-
-    // Inner sorting loop
-    selector = counter;
-    for(comparator = counter+1; comparator < arraySize; comparator++){
-        if(valueData[comparator] < valueData[selector])  {
-            selector = comparator;
-        }
-    }
-
-    // TODO: figure out why better swap method (supposedly in 5.14) isn't working
-    //valueData.swapItemsAt(counter, min);
-    // TODO: use better Qvector<> swap method
-    swap1 = valueData[selector];
-    swap2 = valueData[counter];
-    //Swap(&swap1, &swap2);
-    valueData.replace(counter, swap1);
-    valueData.replace(selector, swap2);
-
-    // Update GUI
-    updateGUI();
-
-    // Checks if the sorting algorithm has passed through the entire array
-    if(counter == arraySize-2) {
-        // Debugging
-        // TODO: Replace with/add GUI message when everything works
-        std::cout << "Doneso!\nCounter = " << counter << " | min = " << selector << " | j = " << comparator << std::endl;
-        std::cout << "Final Result:" << std::endl;
-        for(int k=0; k<arraySize; k++){
-            std::cout << valueData[k] << " -> " << std::flush;
-        }
-        std::cout << ":D" << std::endl;
-        // not this one
-        m_timer->stop();
-    }else {
-        counter++;
-        // Debugging
-        // TODO: Remove when everything works
-        for(int k=0; k<arraySize; k++) {
-            std::cout << valueData[k] << "  " << std::flush;
-        }
-        std::cout << "\n";
-    }
-}
-
-void MainWindow::bubbleSort(){
-    comparator = counter;
-
-    if (valueData[selector] > valueData[selector+1]) {
-        swap1 = valueData[selector+1];
-        swap2 = valueData[selector];
-        //Swap(&swap1, &swap2);
-        valueData.replace(selector, swap1);
-        valueData.replace(selector+1, swap2);
-    }
-    updateGUI();
-
-    // Checks if the sorting algorithm has passed through the entire array
-    if(selector < arraySize-comparator-2){
-        std::cout << "selector = " << selector << " | ";
-        selector++;
-    }else if(selector == arraySize-comparator-2) {
-        selector=0;
-        counter++;
-        // Debugging
-        // TODO: Remove when everything works
-        std::cout << "\n";
-        for(int k=0; k<arraySize; k++) {
-            std::cout << valueData[k] << "  " << std::flush;
-        }
-        std::cout << "\n";
-        if(counter == arraySize-2) {
-            // Debugging
-            // TODO: Replace with/add GUI message when everything works
-            std::cout << "Doneso!\nCounter = " << counter << " | comparator = " << comparator << " | selector = " << selector << std::endl;
-            std::cout << "Final Result:" << std::endl;
-            for(int k=0; k<arraySize; k++){
-                std::cout << valueData[k] << " -> " << std::flush;
-            }
-            std::cout << ":D" << std::endl;
-            // not this one
-            m_timer->stop();
-        }
-    }
-}
-
-
-
-// TODO(ish): not necessary (for now?)
-/*
-void MainWindow::Swap(double *a, double *b) {
-    double temp = *a;
-    *a = *b;
-    *b = temp;
-}
-*/
