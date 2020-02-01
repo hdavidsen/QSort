@@ -71,7 +71,32 @@
         </item>
         <item>
          <property name="text">
-          <string>Another sort</string>
+          <string>Insertion sort</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Heap sort</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>sort</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>sort</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>sort</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>sort</string>
          </property>
         </item>
        </widget>

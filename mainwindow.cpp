@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDebug>
-#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -47,7 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Setting up data points
     // TODO: take the data from somewhere else (lav prio)
-    valueData << 18 << 12 << 20 << 8 << 22 << 2 << 14 << 6 << 10 << 16 << 4;
+    valueData << 18 << 12 << 20 << 8 << 22 << 14 << 6 << 10 << 16 << 4 << 2;
+    //valueData << 4 << 10 << 3 << 5 << 1;
     resetData = valueData;
     arraySize = valueData.size();
     for (int i=1; i<=arraySize; i++) {
@@ -75,7 +74,8 @@ void MainWindow::updateGUI() {
 }
 
 void MainWindow::setSorter(int idx) {
-    if(idx == 0){
+    // TODO: make this a switch when this increases
+    if(idx == 0) {
         if(isMoved) {
             ui->textBrowser->resize(140, 290);
             ui->textBrowser->move(0, 35);
@@ -96,21 +96,32 @@ void MainWindow::setSorter(int idx) {
         title->setText("Bubble sort");
         customPlot->replot();
     }else if(idx == 2){
+        if(isMoved) {
+            ui->textBrowser->resize(140, 290);
+            ui->textBrowser->move(0, 35);
+            isMoved = false;
+        }
+        title->setText("Insertion sort");
+        customPlot->replot();
+        m_timer->disconnect();
+        connect(m_timer, SIGNAL(timeout()), this,SLOT(insertionSort()));
+    }else if(idx == 3){
         if(!isMoved) {
             ui->textBrowser->resize(140, 255);
             ui->textBrowser->move(0, 70);
             isMoved = true;
         }
-        title->setText("Quick sort?");
+        title->setText("Heap sort");
         customPlot->replot();
-       // m_timer->disconnect();
-       // connect(m_timer, SIGNAL(timeout()), this,SLOT(display()));
+        m_timer->disconnect();
+        connect(m_timer, SIGNAL(timeout()), this,SLOT(heapSort()));
     }
 }
 
 void MainWindow::startButton() {
     std::cout << "\nSorting:\n";
     int delay = ui->delayBox->value();
+    //m_timer->setSingleShot(true);
     m_timer->start(delay);
 }
 
