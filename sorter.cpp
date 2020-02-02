@@ -32,11 +32,10 @@ void Sorter::selectionSort() {
     // TODO: figure out why better swap method (supposedly in 5.14) isn't working --
     // --> valueData.swapItemsAt(counter, min);
     // TODO: use better Qvector<> swap method
-    swap1 = valueData[selector];
-    swap2 = valueData[counter];
+    tmp = valueData[counter];
     //Swap(&swap1, &swap2);
-    valueData.replace(counter, swap1);
-    valueData.replace(selector, swap2);
+    valueData.replace(counter, valueData[selector]);
+    valueData.replace(selector, tmp);
 
     // Update GUI
     updateGUI();
@@ -68,11 +67,10 @@ void Sorter::bubbleSort() {
     comparator = selector + 1;
 
     if (valueData[selector] > valueData[comparator]) {
-        swap1 = valueData[comparator];
-        swap2 = valueData[selector];
+        tmp = valueData[selector];
         //Swap(&swap1, &swap2);
-        valueData.replace(selector, swap1);
-        valueData.replace(comparator, swap2);
+        valueData.replace(selector, valueData[comparator]);
+        valueData.replace(comparator, tmp);
     }
     updateGUI();
 
@@ -108,22 +106,21 @@ void Sorter::bubbleSort() {
 }
 
 void Sorter::insertionSort() {
-    if(counter == 0 ) counter++;
+    if(counter == 0 ) comparator++;
 
-    // TODO: fix! implicit typecast
-    selector = valueData[counter];
-    comparator = counter - 1;
+    tmp = valueData[comparator];
+    selector = comparator - 1;
 
-    while (comparator >= 0 && valueData[comparator] > selector) {
-        valueData[comparator + 1] = valueData[comparator];
-        comparator--;
+    while (selector >= 0 && valueData[selector] > tmp) {
+        valueData[selector + 1] = valueData[selector];
+        selector--;
     }
 
-    valueData[comparator + 1] = selector;
+    valueData[selector + 1] = tmp;
     updateGUI();
 
 
-    if(counter == arraySize-1) {
+    if(counter == arraySize-2) {
         // Debugging
         // TODO: Replace with/add GUI message when everything works
         std::cout << "Doneso!\nCounter = " << counter << " | comparator = " << comparator << " | selector = " << selector << std::endl;
@@ -136,6 +133,7 @@ void Sorter::insertionSort() {
         m_timer->stop();
     }else{
         counter++;
+        comparator++;
         // Debugging
         // TODO: Remove when everything works
         for(int k=0; k<arraySize; k++) {
@@ -159,11 +157,10 @@ void Sorter::heapSort() {
                 // swap child and parent until
                 // parent is smaller
                 while (valueData[z] > valueData[(z - 1) / 2]) {
-                    swap1 = valueData[z];
-                    swap2 = valueData[(z-1)/2];
+                    tmp = valueData[(z-1)/2];
                     //Swap(&swap1, &swap2);
-                    valueData.replace((z-1)/2, swap1);
-                    valueData.replace(z, swap2);
+                    valueData.replace((z-1)/2, valueData[z]);
+                    valueData.replace(z, tmp);
                     z = (z - 1) / 2;
                 }
             }
@@ -180,11 +177,10 @@ void Sorter::heapSort() {
         std::cout << "\n";
     }
     // swap value of first indexed with last indexed
-    swap1 = valueData[0];
-    swap2 = valueData[counter];
+    tmp = valueData[counter];
     //Swap(&swap1, &swap2);
-    valueData.replace(counter, swap1);
-    valueData.replace(0, swap2);
+    valueData.replace(counter, valueData[0]);
+    valueData.replace(0, tmp);
 
     updateGUI();
 
@@ -199,11 +195,10 @@ void Sorter::heapSort() {
 
         // if parent is smaller than child then swapping parent with child having higher value
         if (valueData[comparator] < valueData[selector] && selector < counter) {
-            swap1 = valueData[comparator];
-            swap2 = valueData[selector];
+            tmp = valueData[selector];
             //Swap(&swap1, &swap2);
-            valueData.replace(selector, swap1);
-            valueData.replace(comparator, swap2);
+            valueData.replace(selector, valueData[comparator]);
+            valueData.replace(comparator, tmp);
         }
 
         comparator = selector;

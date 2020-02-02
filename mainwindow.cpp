@@ -54,7 +54,11 @@ MainWindow::MainWindow(QWidget *parent) :
     for (int i=1; i<=arraySize; i++) {
         keyData << i;
     }
+
     updateGUI();
+    // Rescale again to prevent the plots not fitting on startup
+    // TODO: figure out why this is happening
+    customPlot->rescaleAxes();
 
     // Debugging
     // TODO: Remove when everything works (potentially move to GUI display)
@@ -67,8 +71,6 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow() {
     delete ui;
     delete m_timer;
-    delete myBars;
-    delete title;
 }
 
 void MainWindow::updateGUI() {

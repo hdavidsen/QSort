@@ -13,7 +13,7 @@ public:
 
 private:
     int counter, comparator, selector;
-    double swap1, swap2;
+    double tmp;
 
 private slots:
     void resetButton() override;
