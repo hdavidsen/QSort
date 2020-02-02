@@ -29,13 +29,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Setting up the bar plot
     myBars = new QCPBars(customPlot->xAxis, customPlot->yAxis);
-    myBars->setPen(Qt::NoPen);
-    myBars->setBrush(QColor("#3E9DE5"));
-    myBars->setWidth(1);
+    // This is now done by default in qcustomplot.cpp (line 23662-236645)
+    // myBars->setPen(Qt::NoPen);
+    // myBars->setBrush(QColor("#3E9DE5"));
+    // myBars->setWidth(1);
 
     // Misc setup
     ui->delayBox->setToolTip("Delay (ms)\nMax: 5000\nMin: 10");
-    customPlot->setBackground(QColor("#DCE0E1"));
+    // This is now done by default in qcustomplot.cpp (line 12875)
+    // customPlot->setBackground(QColor("#DCE0E1"));
     customPlot->xAxis->setVisible(false);
     /***********************************************************************************************/
 
@@ -54,7 +56,6 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     updateGUI();
 
-
     // Debugging
     // TODO: Remove when everything works (potentially move to GUI display)
     std::cout << "Before:\n";
@@ -65,6 +66,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
+    delete m_timer;
+    delete myBars;
+    delete title;
 }
 
 void MainWindow::updateGUI() {
@@ -124,5 +128,3 @@ void MainWindow::startButton() {
     //m_timer->setSingleShot(true);
     m_timer->start(delay);
 }
-
-

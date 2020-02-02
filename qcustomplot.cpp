@@ -12871,7 +12871,8 @@ QCustomPlot::QCustomPlot(QWidget *parent) :
   mInteractions(0),
   mSelectionTolerance(8),
   mNoAntialiasingOnDrag(false),
-  mBackgroundBrush(Qt::white, Qt::SolidPattern),
+  // Setting default background color
+  mBackgroundBrush(QColor("#DCE0E1"), Qt::SolidPattern),
   mBackgroundScaled(true),
   mBackgroundScaledMode(Qt::KeepAspectRatioByExpanding),
   mCurrentLayer(0),
@@ -23649,7 +23650,8 @@ QCPBarsData::QCPBarsData(double key, double value) :
 */
 QCPBars::QCPBars(QCPAxis *keyAxis, QCPAxis *valueAxis) :
   QCPAbstractPlottable1D<QCPBarsData>(keyAxis, valueAxis),
-  mWidth(0.75),
+  // Setting default width
+  mWidth(1),
   mWidthType(wtPlotCoords),
   mBarsGroup(0),
   mBaseValue(0),
@@ -23657,8 +23659,9 @@ QCPBars::QCPBars(QCPAxis *keyAxis, QCPAxis *valueAxis) :
 {
   // modify inherited properties from abstract plottable:
   mPen.setColor(Qt::blue);
-  mPen.setStyle(Qt::SolidLine);
-  mBrush.setColor(QColor(40, 50, 255, 30));
+  // Setting default style and color
+  mPen.setStyle(Qt::NoPen);
+  mBrush.setColor(QColor("#3E9DE5"));
   mBrush.setStyle(Qt::SolidPattern);
   mSelectionDecorator->setBrush(QBrush(QColor(160, 160, 255)));
 }
