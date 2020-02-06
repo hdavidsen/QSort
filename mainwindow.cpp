@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     updateGUI();
     // Rescale again to prevent the plots not fitting on startup
-    // TODO: figure out why this is happening
+    // TODO: figure out why this is happening (lav prio)
     customPlot->rescaleAxes();
 
     // Debugging
@@ -80,47 +80,63 @@ void MainWindow::updateGUI() {
 }
 
 void MainWindow::setSorter(int idx) {
-    // TODO: make this a switch when this increases
-    if(idx == 0) {
-        if(isMoved) {
-            ui->textBrowser->resize(140, 290);
-            ui->textBrowser->move(0, 35);
-            isMoved = false;
-        }
-        m_timer->disconnect();
-        connect(m_timer, SIGNAL(timeout()), this, SLOT(selectionSort()));
-        title->setText("Selection sort");
-        customPlot->replot();
-    }else if(idx == 1){
-        if(isMoved) {
-            ui->textBrowser->resize(140, 290);
-            ui->textBrowser->move(0, 35);
-            isMoved = false;
-        }
-        m_timer->disconnect();
-        connect(m_timer, SIGNAL(timeout()), this, SLOT(bubbleSort()));
-        title->setText("Bubble sort");
-        customPlot->replot();
-    }else if(idx == 2){
-        if(isMoved) {
-            ui->textBrowser->resize(140, 290);
-            ui->textBrowser->move(0, 35);
-            isMoved = false;
-        }
-        title->setText("Insertion sort");
-        customPlot->replot();
-        m_timer->disconnect();
-        connect(m_timer, SIGNAL(timeout()), this,SLOT(insertionSort()));
-    }else if(idx == 3){
-        if(!isMoved) {
-            ui->textBrowser->resize(140, 255);
-            ui->textBrowser->move(0, 70);
-            isMoved = true;
-        }
-        title->setText("Heap sort");
-        customPlot->replot();
-        m_timer->disconnect();
-        connect(m_timer, SIGNAL(timeout()), this,SLOT(heapSort()));
+    // TODO: figure out which algorithms can have multiple versions
+    switch (idx) {
+        case 0:
+            if(isMoved) {
+                ui->textBrowser->resize(140, 290);
+                ui->textBrowser->move(0, 35);
+                isMoved = false;
+            }
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this, SLOT(selectionSort()));
+            title->setText("Selection sort");
+            customPlot->replot();
+        break;
+        case 1:
+            if(isMoved) {
+                ui->textBrowser->resize(140, 290);
+                ui->textBrowser->move(0, 35);
+                isMoved = false;
+            }
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this, SLOT(bubbleSort()));
+            title->setText("Bubble sort");
+            customPlot->replot();
+        break;
+        case 2:
+            if(isMoved) {
+                ui->textBrowser->resize(140, 290);
+                ui->textBrowser->move(0, 35);
+                isMoved = false;
+            }
+            title->setText("Insertion sort");
+            customPlot->replot();
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this,SLOT(insertionSort()));
+        break;
+        case 3:
+            if(!isMoved) {
+                ui->textBrowser->resize(140, 255);
+                ui->textBrowser->move(0, 70);
+                isMoved = true;
+            }
+            title->setText("Heap sort");
+            customPlot->replot();
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this,SLOT(heapSort()));
+        break;
+        case 4:
+            if(isMoved) {
+                ui->textBrowser->resize(140, 290);
+                ui->textBrowser->move(0, 35);
+                isMoved = false;
+            }
+            title->setText("Merge sort");
+            customPlot->replot();
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this,SLOT(mergeSort()));
+        break;
     }
 }
 

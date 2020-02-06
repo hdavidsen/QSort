@@ -32,11 +32,11 @@ private slots:
     virtual void bubbleSort() = 0;
     virtual void insertionSort() = 0;
     virtual void heapSort() = 0;
+    virtual void mergeSort() = 0;
     // TODO: implement all of these (and more)
     // https://en.wikipedia.org/wiki/Sorting_algorithm
     // virtual void quickSort() = 0;
     // virtual void radixSort() = 0;
-    // virtual void mergeSort() = 0;
     // virtual void countingSort() = 0;
     // virtual void bucketSort() = 0;
     // virtual void shellSort() = 0;
