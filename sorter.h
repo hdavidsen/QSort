@@ -10,6 +10,7 @@ public:
     Sorter(QWidget *parent = nullptr);
     ~Sorter();
     //void swap(double *a, double *b);
+    int partition(int l, int h);
 
 private:
     int counter, comparator, selector;
@@ -20,13 +21,13 @@ private:
 private slots:
     void resetButton() override;
     void selectionSort() override;
+    void quickSort() override;
     void bubbleSort() override;
     void insertionSort() override;
     void heapSort() override;
     void mergeSort() override;
     // TODO: implement all of these (and more)
     // https://en.wikipedia.org/wiki/Sorting_algorithm
-    // void quickSort() override;
     // void countingSort() override;
     // void radixSort() override;
     // void bucketSort() override;

@@ -94,6 +94,17 @@ void MainWindow::setSorter(int idx) {
             customPlot->replot();
         break;
         case 1:
+            if(!isMoved) {
+                ui->textBrowser->resize(140, 255);
+                ui->textBrowser->move(0, 70);
+                isMoved = true;
+            }
+            title->setText("Quick sort");
+            customPlot->replot();
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this,SLOT(quickSort()));
+        break;
+        case 2:
             if(isMoved) {
                 ui->textBrowser->resize(140, 290);
                 ui->textBrowser->move(0, 35);
@@ -104,7 +115,7 @@ void MainWindow::setSorter(int idx) {
             title->setText("Bubble sort");
             customPlot->replot();
         break;
-        case 2:
+        case 3:
             if(isMoved) {
                 ui->textBrowser->resize(140, 290);
                 ui->textBrowser->move(0, 35);
@@ -115,7 +126,7 @@ void MainWindow::setSorter(int idx) {
             m_timer->disconnect();
             connect(m_timer, SIGNAL(timeout()), this,SLOT(insertionSort()));
         break;
-        case 3:
+        case 4:
             if(!isMoved) {
                 ui->textBrowser->resize(140, 255);
                 ui->textBrowser->move(0, 70);
@@ -126,7 +137,7 @@ void MainWindow::setSorter(int idx) {
             m_timer->disconnect();
             connect(m_timer, SIGNAL(timeout()), this,SLOT(heapSort()));
         break;
-        case 4:
+        case 5:
             if(isMoved) {
                 ui->textBrowser->resize(140, 290);
                 ui->textBrowser->move(0, 35);

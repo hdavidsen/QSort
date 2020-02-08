@@ -17,6 +17,7 @@ void Sorter::resetButton() {
     comparator = 0;
     selector = 0;
     initialized = false;
+    tmpData.clear();
     valueData = resetData;
     updateGUI();
 }
@@ -46,7 +47,6 @@ void Sorter::selectionSort() {
     if(counter == arraySize-2) {
         // Debugging
         // TODO: Replace with/add GUI message when everything works
-        std::cout << "Doneso!\nCounter = " << counter << " | min = " << selector << " | j = " << comparator << std::endl;
         std::cout << "Final Result:" << std::endl;
         for(int k=0; k<arraySize; k++){
             std::cout << valueData[k] << " -> " << std::flush;
@@ -65,6 +65,100 @@ void Sorter::selectionSort() {
     }
 }
 
+void Sorter::quickSort() {
+    if(!initialized) {
+
+        comparator = arraySize-1;
+        // Create an auxiliary stack
+        tmpData.resize(comparator - selector + 1);
+
+        // initialize top of stack
+        counter = -1;
+
+        // push initial values of l and h to stack
+        tmpData[++counter] = selector;
+        tmpData[++counter] = comparator;
+
+        initialized = true;
+    }
+    // l = selector, h = comparator, top = counter
+
+    // Keep popping from stack while is not empty
+    if (counter >= 0) {
+        // Pop h and l
+        comparator = tmpData[counter--];
+        selector = tmpData[counter--];
+
+        // Set pivot element at its correct position
+        // in sorted array
+        //int p = partition(selector, comparator);
+        auto p = [&]() -> int{
+                int i = (selector - 1);
+
+                for (int j = selector; j <= comparator - 1; j++) {
+                    if (valueData[j] <= valueData[comparator]) {
+                        i++;
+                        if(i != j){
+                            std::cout << "Swapping " << "valueData[" << i << "] = " << valueData[i] << " and "
+                                      << "valueData[" << j << "] = " << valueData[j] << "\n";
+                            tmp = valueData[i];
+                            //Swap(&swap1, &swap2);
+                            valueData.replace(i, valueData[j]);
+                            valueData.replace(j, tmp);
+                            //swap(&arr[i], &arr[j]);
+                            for(int k=0; k<arraySize; k++) {
+                                std::cout << valueData[k] << "  " << std::flush;
+                            }
+                            std::cout << "\n";
+                        }
+                    }
+                }
+                tmp = valueData[i+1];
+                //Swap(&swap1, &swap2);
+                valueData.replace(i+1, valueData[comparator]);
+                valueData.replace(comparator, tmp);
+                //swap(&arr[i + 1], &arr[h]);
+                return (i + 1);
+        };
+        int part = p();
+
+        // Debugging
+        // TODO: Remove when everything works
+        std::cout << "Partitioned with: " << "valueData[" << part << "] = " << valueData[part] << "\n";
+        for(int k=0; k<arraySize; k++) {
+            std::cout << valueData[k] << "  " << std::flush;
+        }
+        std::cout << "\n---------------------------------------\n";
+
+        // If there are elements on left side of pivot,
+        // then push left side to stack
+        if (part - 1 > selector) {
+            tmpData[++counter] = selector;
+            tmpData[++counter] = part - 1;
+        }
+
+        // If there are elements on right side of pivot,
+        // then push right side to stack
+        if (part + 1 < comparator) {
+            tmpData[++counter] = part + 1;
+            tmpData[++counter] = comparator;
+        }
+        updateGUI();
+    }else {
+        updateGUI();
+        // Debugging
+        // TODO: Replace with/add GUI message when everything works
+        std::cout << "Final Result:" << std::endl;
+        for(int k=0; k<arraySize; k++){
+            std::cout << valueData[k] << " -> " << std::flush;
+        }
+        std::cout << ":D" << std::endl;
+        // keep this one
+        m_timer->stop();
+    }
+
+}
+
 void Sorter::bubbleSort() {
     comparator = selector + 1;
 
@@ -78,16 +172,12 @@ void Sorter::bubbleSort() {
 
     // Checks if the sorting algorithm has passed through the inner loop, then the entire array
     if(selector < arraySize-counter-2){
-        // Debugging
-        // TODO: Remove when everything works
-        std::cout << "selector = " << selector << " | ";
         selector++;
     }else {
         selector=0;
         counter++;
         // Debugging
         // TODO: Remove when everything works
-        std::cout << "\n";
         for(int k=0; k<arraySize; k++) {
             std::cout << valueData[k] << "  " << std::flush;
         }
@@ -151,7 +241,7 @@ void Sorter::heapSort() {
     // TODO: figure out how/if this should be displayed
         // TODO: fix naming conventions
     if(!initialized) {
-        std::cout << "Max heaping..\n";
+        std::cout << "Building max heap..\n";
         for (int i = 1; i < arraySize; i++) {
             // if child is bigger than parent
             if (valueData[i] > valueData[(i - 1) / 2]) {
@@ -172,7 +262,7 @@ void Sorter::heapSort() {
         counter = arraySize - 1;
         initialized = true;
 
-        std::cout << "Max heaped..\n";
+        std::cout << "Max heap:\n";
         // Debugging
         // TODO: Remove when everything works
         for(int k=0; k<arraySize; k++) {
