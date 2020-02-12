@@ -91,12 +91,12 @@
         </item>
         <item>
          <property name="text">
-          <string>sort</string>
+          <string>Counting sort</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>sort</string>
+          <string>Radix sort</string>
          </property>
         </item>
        </widget>

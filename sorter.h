@@ -15,8 +15,8 @@ public:
 private:
     int counter, comparator, selector;
     double tmp;
-    QVector<double> tmpData;
     bool initialized;
+    QVector<double> tmpDataA, tmpDataB;
 
 private slots:
     void resetButton() override;
@@ -26,10 +26,10 @@ private slots:
     void insertionSort() override;
     void heapSort() override;
     void mergeSort() override;
+    void countingSort() override;
+    void radixSort() override;
     // TODO: implement all of these (and more)
     // https://en.wikipedia.org/wiki/Sorting_algorithm
-    // void countingSort() override;
-    // void radixSort() override;
     // void bucketSort() override;
     // void shellSort() override;
 

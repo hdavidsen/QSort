@@ -56,8 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     updateGUI();
-    // Rescale again to prevent the plots not fitting on startup
-    // TODO: figure out why this is happening (lav prio)
+    // Rescale to fit plots after adding them to the axis
     customPlot->rescaleAxes();
 
     // Debugging
@@ -75,12 +74,12 @@ MainWindow::~MainWindow() {
 
 void MainWindow::updateGUI() {
     myBars->setData(keyData, valueData);
-    customPlot->rescaleAxes();
     customPlot->replot();
 }
 
 void MainWindow::setSorter(int idx) {
     // TODO: figure out which algorithms can have multiple versions
+    // (quick sort with different partitions, merge sort in-place/out-of-place etc)
     switch (idx) {
         case 0:
             if(isMoved) {
@@ -147,6 +146,17 @@ void MainWindow::setSorter(int idx) {
             customPlot->replot();
             m_timer->disconnect();
             connect(m_timer, SIGNAL(timeout()), this,SLOT(mergeSort()));
+        break;
+        case 6:
+            if(isMoved) {
+                ui->textBrowser->resize(140, 290);
+                ui->textBrowser->move(0, 35);
+                isMoved = false;
+            }
+            title->setText("Counting sort");
+            customPlot->replot();
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this,SLOT(countingSort()));
         break;
     }
 }

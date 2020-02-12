@@ -17,7 +17,8 @@ void Sorter::resetButton() {
     comparator = 0;
     selector = 0;
     initialized = false;
-    tmpData.clear();
+    tmpDataA.clear();
+    tmpDataB.clear();
     valueData = resetData;
     updateGUI();
 }
@@ -70,28 +71,26 @@ void Sorter::quickSort() {
 
         comparator = arraySize-1;
         // Create an auxiliary stack
-        tmpData.resize(comparator - selector + 1);
+        tmpDataA.resize(comparator - selector + 1);
 
         // initialize top of stack
         counter = -1;
 
-        // push initial values of l and h to stack
-        tmpData[++counter] = selector;
-        tmpData[++counter] = comparator;
+        // push initial values of selector and comparator to stack
+        tmpDataA[++counter] = selector;
+        tmpDataA[++counter] = comparator;
 
         initialized = true;
     }
-    // l = selector, h = comparator, top = counter
 
-    // Keep popping from stack while is not empty
+    // Keep popping from stack while counter is not empty
     if (counter >= 0) {
         // Pop h and l
-        comparator = tmpData[counter--];
-        selector = tmpData[counter--];
+        comparator = tmpDataA[counter--];
+        selector = tmpDataA[counter--];
 
         // Set pivot element at its correct position
         // in sorted array
-        //int p = partition(selector, comparator);
         auto p = [&]() -> int{
                 int i = (selector - 1);
 
@@ -117,7 +116,6 @@ void Sorter::quickSort() {
                 //Swap(&swap1, &swap2);
                 valueData.replace(i+1, valueData[comparator]);
                 valueData.replace(comparator, tmp);
-                //swap(&arr[i + 1], &arr[h]);
                 return (i + 1);
         };
         int part = p();
@@ -133,15 +131,15 @@ void Sorter::quickSort() {
         // If there are elements on left side of pivot,
         // then push left side to stack
         if (part - 1 > selector) {
-            tmpData[++counter] = selector;
-            tmpData[++counter] = part - 1;
+            tmpDataA[++counter] = selector;
+            tmpDataA[++counter] = part - 1;
         }
 
         // If there are elements on right side of pivot,
         // then push right side to stack
         if (part + 1 < comparator) {
-            tmpData[++counter] = part + 1;
-            tmpData[++counter] = comparator;
+            tmpDataA[++counter] = part + 1;
+            tmpDataA[++counter] = comparator;
         }
         updateGUI();
     }else {
@@ -319,13 +317,12 @@ void Sorter::heapSort() {
 void Sorter::mergeSort() {
     if(!initialized) {
         comparator = arraySize-1;
-        tmpData = valueData;
+        tmpDataA = valueData;
         counter = 1;
         std::cout << "counter = " << counter << "\n";
         std::cout << "selector = " << selector << "\n";
         initialized = true;
     }
-    // low = comparator, high = selector, counter = m?
 
     // divide the array into blocks of size m
     // counter = [1, 2, 4, 8, 16...]
@@ -348,19 +345,19 @@ void Sorter::mergeSort() {
     // loop till there are elements in the left and right runs
     while (tmpi <= mid && tmpj <= to()) {
         if (valueData[tmpi] < valueData[tmpj])
-            tmpData[tmpk++] = valueData[tmpi++];
+            tmpDataA[tmpk++] = valueData[tmpi++];
         else
-            tmpData[tmpk++] = valueData[tmpj++];
+            tmpDataA[tmpk++] = valueData[tmpj++];
     }
 
     // Copy remaining elements
     while (tmpi < arraySize && tmpi <= mid)
-        tmpData[tmpk++] = valueData[tmpi++];
+        tmpDataA[tmpk++] = valueData[tmpi++];
 
     // Don't need to copy second half
     // copy back to the original array to reflect sorted order
     for (int i = from; i <= to(); i++)
-        valueData[i] = tmpData[i];
+        valueData[i] = tmpDataA[i];
 
     updateGUI();
 
@@ -390,6 +387,69 @@ void Sorter::mergeSort() {
               m_timer->stop();
         }
     }
+}
+
+void Sorter::countingSort() {
+    if(!initialized) {
+        auto getMax = [=]() -> double {
+            int max = valueData[0];
+            for(int i=1; i<arraySize; i++) {
+                if(max < valueData[i])
+                    max = valueData[i];
+            }
+            return max;
+        };
+
+        auto getMin = [=]() -> double {
+            int min = valueData[0];
+            for(int i=1; i<arraySize; i++) {
+                if(min > valueData[i])
+                    min = valueData[i];
+            }
+            return min;
+        };
+        int max = getMax();
+        int min = getMin();
+        int range = max - min + 1;
+
+        // tmpDataA = count[], tmpDataB = output[]
+        tmpDataA.resize(range);
+        tmpDataB.resize(arraySize);
+        for(int i = 0; i < arraySize; i++)
+           tmpDataA[valueData[i]-min]++;
+
+        for(int i = 1; i < tmpDataA.size(); i++)
+              tmpDataA[i] += tmpDataA[i-1];
+
+        for(int i = arraySize-1; i >= 0; i--) {
+            tmpDataB[tmpDataA[valueData[i]-min]-1] = valueData[i];
+                 tmpDataA[valueData[i]-min]--;
+        }
+        initialized = true;
+    }
+
+    if(counter < arraySize){
+           valueData[counter] = tmpDataB[counter];
+           counter++;
+           updateGUI();
+           for(int k=0; k<arraySize; k++){
+               std::cout << valueData[k] << " " << std::flush;
+           }
+           std::cout << "\n";
+    }else{
+        m_timer->stop();
+        // Debugging
+        // TODO: Replace with/add GUI message when everything works
+        std::cout << "Final Result:" << std::endl;
+        for(int k=0; k<arraySize; k++){
+            std::cout << valueData[k] << " -> " << std::flush;
+        }
+        std::cout << ":D" << std::endl;
+    }
+}
+
+void Sorter::radixSort() {
+
 }
 
 // TODO: see if there's ever going to be a need for a set of utility functions (lav prio)
