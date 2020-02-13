@@ -91,6 +91,16 @@
         </item>
         <item>
          <property name="text">
+          <string>Bucket sort</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Shell sort</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>Counting sort</string>
          </property>
         </item>

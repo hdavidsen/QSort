@@ -153,10 +153,43 @@ void MainWindow::setSorter(int idx) {
                 ui->textBrowser->move(0, 35);
                 isMoved = false;
             }
+            title->setText("Bucket sort");
+            customPlot->replot();
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this,SLOT(bucketSort()));
+        break;
+        case 7:
+            if(isMoved) {
+                ui->textBrowser->resize(140, 290);
+                ui->textBrowser->move(0, 35);
+                isMoved = false;
+            }
+            title->setText("Shell sort");
+            customPlot->replot();
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this,SLOT(shellSort()));
+        break;
+        case 8:
+            if(isMoved) {
+                ui->textBrowser->resize(140, 290);
+                ui->textBrowser->move(0, 35);
+                isMoved = false;
+            }
             title->setText("Counting sort");
             customPlot->replot();
             m_timer->disconnect();
             connect(m_timer, SIGNAL(timeout()), this,SLOT(countingSort()));
+        break;
+        case 9:
+            if(isMoved) {
+                ui->textBrowser->resize(140, 290);
+                ui->textBrowser->move(0, 35);
+                isMoved = false;
+            }
+            title->setText("Radix sort");
+            customPlot->replot();
+            m_timer->disconnect();
+            connect(m_timer, SIGNAL(timeout()), this,SLOT(radixSort()));
         break;
     }
 }

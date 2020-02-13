@@ -26,14 +26,11 @@ private slots:
     void insertionSort() override;
     void heapSort() override;
     void mergeSort() override;
+    void bucketSort() override;
+    void shellSort() override;
+    // TODO: debug/improve these two
     void countingSort() override;
     void radixSort() override;
-    // TODO: implement all of these (and more)
-    // https://en.wikipedia.org/wiki/Sorting_algorithm
-    // void bucketSort() override;
-    // void shellSort() override;
-
-
 };
 
 #endif // SORTER_H

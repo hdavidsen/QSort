@@ -389,6 +389,14 @@ void Sorter::mergeSort() {
     }
 }
 
+void Sorter::bucketSort() {
+
+}
+
+void Sorter::shellSort() {
+
+}
+
 void Sorter::countingSort() {
     if(!initialized) {
         auto getMax = [=]() -> double {
@@ -408,6 +416,7 @@ void Sorter::countingSort() {
             }
             return min;
         };
+        // TODO: figure out how to integrate double/floating/char (lav prio)
         int max = getMax();
         int min = getMin();
         int range = max - min + 1;
@@ -448,8 +457,64 @@ void Sorter::countingSort() {
     }
 }
 
+// the vector is currently casted to int and will ignore all decimals etc..
+// TODO: figure out how to sort using types, not only int
 void Sorter::radixSort() {
+    if(!initialized) {
+        auto getMax = [=]() -> int {
+            int max = valueData[0];
+            for(int i=1; i<arraySize; i++) {
+                if(max < valueData[i])
+                    max = valueData[i];
+            }
+            return max;
+        };
+        comparator = getMax();
+        counter = 1;
+        tmpDataA.resize(arraySize); // output
+        tmpDataB.resize(10); // count
+        initialized = true;
+    }
 
+    // Do counting sort for every digit. Note that instead
+    // of passing digit number, exp is passed. exp is 10^i
+    // where i is current digit number
+
+    //for (int counter = 1; comparator/counter > 0; counter *= 10) {
+    if(comparator/counter > 0){
+       // Store count of occurrences in count[]
+       for (int i = 0; i < arraySize; i++)
+           tmpDataB[ ((int)valueData[i]/counter)%10 ]++;
+
+       // Change count[i] so that count[i] now contains actual
+       //  position of this digit in output[]
+       for (int i = 1; i < 10; i++)
+           tmpDataB[i] += tmpDataB[i - 1];
+
+       // Build the output array
+       for (int i = arraySize - 1; i >= 0; i--) {
+           tmpDataA[tmpDataB[ ((int)valueData[i]/counter)%10 ] - 1] = valueData[i];
+           tmpDataB[ ((int)valueData[i]/counter)%10 ]--;
+       }
+
+       // Copy the output array to arr[], so that arr[] now
+       // contains sorted numbers according to current digit
+       for (int i = 0; i < arraySize; i++)
+           valueData[i] = tmpDataA[i];
+
+       updateGUI();
+       counter *= 10;
+       tmpDataB.fill(0);
+    }else {
+       m_timer->stop();
+       // Debugging
+       // TODO: Replace with/add GUI message when everything works
+       std::cout << "Final Result:" << std::endl;
+       for(int k=0; k<arraySize; k++){
+           std::cout << valueData[k] << " -> " << std::flush;
+       }
+       std::cout << ":D" << std::endl;
+    }
 }
 
 // TODO: see if there's ever going to be a need for a set of utility functions (lav prio)
