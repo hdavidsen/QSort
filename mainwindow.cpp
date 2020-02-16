@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QRandomGenerator>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /*GUI setup***********************************************************************************/
     ui->setupUi(this);
     // TODO: Sort this out
-   // this->setCentralWidget(ui->grid);
+    //this->setCentralWidget(ui->gridWidget);
     customPlot = ui->graphWidget;
 
     // Setting up start & reset buttons
@@ -20,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
         [=](int index){ setSorter(index); });
     // TODO: set up combo box #2
+    ui->comboBox_2->setVisible(false);
 
     // Setting up title (this will change based on which algorithm used)
     title = new QCPTextElement(customPlot);
@@ -47,7 +49,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Setting up data points
     // TODO: take the data from somewhere else (lav prio)
-    valueData << 18 << 12 << 20 << 8 << 22 << 14 << 6 << 10 << 16 << 4 << 2;
+    QRandomGenerator generator;
+    for(int i=0; i<100; i++)
+        valueData << generator.bounded(1,101);
+    //valueData << 18 << 12 << 20 << 8 << 22 << 14 << 6 << 10 << 16 << 4 << 2;
     //valueData << 4 << 10 << 3 << 5 << 1;
     resetData = valueData;
     arraySize = valueData.size();
@@ -83,8 +88,7 @@ void MainWindow::setSorter(int idx) {
     switch (idx) {
         case 0:
             if(isMoved) {
-                ui->textBrowser->resize(140, 290);
-                ui->textBrowser->move(0, 35);
+                ui->comboBox_2->setVisible(false);
                 isMoved = false;
             }
             m_timer->disconnect();
@@ -94,8 +98,7 @@ void MainWindow::setSorter(int idx) {
         break;
         case 1:
             if(!isMoved) {
-                ui->textBrowser->resize(140, 255);
-                ui->textBrowser->move(0, 70);
+                ui->comboBox_2->setVisible(true);
                 isMoved = true;
             }
             title->setText("Quick sort");
@@ -105,8 +108,7 @@ void MainWindow::setSorter(int idx) {
         break;
         case 2:
             if(isMoved) {
-                ui->textBrowser->resize(140, 290);
-                ui->textBrowser->move(0, 35);
+                ui->comboBox_2->setVisible(false);
                 isMoved = false;
             }
             m_timer->disconnect();
@@ -116,8 +118,7 @@ void MainWindow::setSorter(int idx) {
         break;
         case 3:
             if(isMoved) {
-                ui->textBrowser->resize(140, 290);
-                ui->textBrowser->move(0, 35);
+                ui->comboBox_2->setVisible(false);
                 isMoved = false;
             }
             title->setText("Insertion sort");
@@ -127,8 +128,7 @@ void MainWindow::setSorter(int idx) {
         break;
         case 4:
             if(!isMoved) {
-                ui->textBrowser->resize(140, 255);
-                ui->textBrowser->move(0, 70);
+                ui->comboBox_2->setVisible(true);
                 isMoved = true;
             }
             title->setText("Heap sort");
@@ -138,8 +138,7 @@ void MainWindow::setSorter(int idx) {
         break;
         case 5:
             if(isMoved) {
-                ui->textBrowser->resize(140, 290);
-                ui->textBrowser->move(0, 35);
+                ui->comboBox_2->setVisible(false);
                 isMoved = false;
             }
             title->setText("Merge sort");
@@ -149,8 +148,7 @@ void MainWindow::setSorter(int idx) {
         break;
         case 6:
             if(isMoved) {
-                ui->textBrowser->resize(140, 290);
-                ui->textBrowser->move(0, 35);
+                ui->comboBox_2->setVisible(false);
                 isMoved = false;
             }
             title->setText("Bucket sort");
@@ -160,8 +158,7 @@ void MainWindow::setSorter(int idx) {
         break;
         case 7:
             if(isMoved) {
-                ui->textBrowser->resize(140, 290);
-                ui->textBrowser->move(0, 35);
+                ui->comboBox_2->setVisible(false);
                 isMoved = false;
             }
             title->setText("Shell sort");
@@ -171,8 +168,7 @@ void MainWindow::setSorter(int idx) {
         break;
         case 8:
             if(isMoved) {
-                ui->textBrowser->resize(140, 290);
-                ui->textBrowser->move(0, 35);
+                ui->comboBox_2->setVisible(false);
                 isMoved = false;
             }
             title->setText("Counting sort");
@@ -182,21 +178,26 @@ void MainWindow::setSorter(int idx) {
         break;
         case 9:
             if(isMoved) {
-                ui->textBrowser->resize(140, 290);
-                ui->textBrowser->move(0, 35);
+                ui->comboBox_2->setVisible(false);
                 isMoved = false;
             }
             title->setText("Radix sort");
             customPlot->replot();
             m_timer->disconnect();
             connect(m_timer, SIGNAL(timeout()), this,SLOT(radixSort()));
+            ui->textEdit->setText("Warning!\nCurrently casts everything to whole numbers, use at your own risk");
         break;
     }
 }
 
 void MainWindow::startButton() {
-    std::cout << "\nSorting:\n";
-    int delay = ui->delayBox->value();
-    //m_timer->setSingleShot(true);
-    m_timer->start(delay);
+    if(!m_timer->isActive()) {
+        int delay = ui->delayBox->value();
+        //m_timer->setSingleShot(true);
+        m_timer->start(delay);
+        ui->startButton->setText("Stop");
+    } else {
+        m_timer->stop();
+        ui->startButton->setText("Start");
+    }
 }
