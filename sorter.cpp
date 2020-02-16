@@ -394,6 +394,33 @@ void Sorter::bucketSort() {
 }
 
 void Sorter::shellSort() {
+    if(!initialized){
+        comparator = arraySize/2;
+        initialized = true;
+    }
+
+    // for (int gap = arraySize / 2; gap > 0; gap /= 2)
+    if(comparator > 0) {
+        for (int i = comparator; i < arraySize; i += 1) {
+          tmp = valueData[i];
+          int j;
+          for (j = i; j >= comparator && valueData[j - comparator] > tmp; j -= comparator) {
+            valueData[j] = valueData[j - comparator];
+          }
+          valueData[j] = tmp;
+        }
+        comparator /= 2;
+        updateGUI();
+    }else {
+        m_timer->stop();
+        // Debugging
+        // TODO: Replace with/add GUI message when everything works
+        std::cout << "Final Result:" << std::endl;
+        for(int k=0; k<arraySize; k++){
+            std::cout << valueData[k] << " -> " << std::flush;
+        }
+        std::cout << ":D" << std::endl;
+    }
 
 }
 

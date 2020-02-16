@@ -10,7 +10,6 @@ public:
     Sorter(QWidget *parent = nullptr);
     ~Sorter();
     //void swap(double *a, double *b);
-    int partition(int l, int h);
 
 private:
     int counter, comparator, selector;
