@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QRandomGenerator>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -50,8 +49,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // Setting up data points
     // TODO: take the data from somewhere else (lav prio)
     QRandomGenerator generator;
-    for(int i=0; i<100; i++)
-        valueData << generator.bounded(1,101);
+    for(int i=0; i<1000; i++)
+        valueData << generator.bounded(1,1001);
     //valueData << 18 << 12 << 20 << 8 << 22 << 14 << 6 << 10 << 16 << 4 << 2;
     //valueData << 4 << 10 << 3 << 5 << 1;
     resetData = valueData;

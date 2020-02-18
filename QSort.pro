@@ -2,7 +2,7 @@ QT       += core gui charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
-CONFIG += c++11
+CONFIG += c++11 precompile_header
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -21,8 +21,11 @@ SOURCES += \
     qcustomplot.cpp \
     sorter.cpp
 
+PRECOMPILED_HEADER = pch.h
+
 HEADERS += \
     mainwindow.h \
+    pch.h \
     qcustomplot.h \
     sorter.h
 

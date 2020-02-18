@@ -2,11 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtCore/QTimer>
 #include  "qcustomplot.h"
-
-#include <QDebug>
-#include <iostream>
 
 namespace Ui {
 class MainWindow;
