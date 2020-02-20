@@ -80,6 +80,19 @@ void MainWindow::updateGUI() {
     customPlot->replot();
 }
 
+void MainWindow::setTimer(QString buttonState) {
+    if(buttonState == "Start") {
+        static int delay = ui->delayBox->value();
+        //m_timer->setSingleShot(true);
+        m_timer->start(delay);
+        ui->startButton->setText("Stop");
+    }
+    if(buttonState == "Stop") {
+        m_timer->stop();
+        ui->startButton->setText("Start");
+    }
+}
+
 void MainWindow::setSorter(int idx) {
     // TODO: figure out which algorithms can have multiple versions
     // (quick sort with different partitions, merge sort in-place/out-of-place etc)
@@ -190,12 +203,8 @@ void MainWindow::setSorter(int idx) {
 
 void MainWindow::startButton() {
     if(!m_timer->isActive()) {
-        int delay = ui->delayBox->value();
-        //m_timer->setSingleShot(true);
-        m_timer->start(delay);
-        ui->startButton->setText("Stop");
+        setTimer("Start");
     } else {
-        m_timer->stop();
-        ui->startButton->setText("Start");
+        setTimer("Stop");
     }
 }

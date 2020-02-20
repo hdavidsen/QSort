@@ -1,6 +1,6 @@
 #include "sorter.h"
 
-Sorter::Sorter(QWidget *parent) : MainWindow(parent) {
+Sorter::Sorter(QWidget *parent) : MainWindow(parent), arraySize(getArraySize()){
     counter = 0;
     comparator = 0;
     selector = 0;
@@ -53,7 +53,7 @@ void Sorter::selectionSort() {
         }
         std::cout << ":D" << std::endl;
         // keep this one
-        m_timer->stop();
+        setTimer("Stop");
     }else {
         counter++;
         // Debugging
@@ -151,7 +151,7 @@ void Sorter::quickSort() {
         }
         std::cout << ":D" << std::endl;
         // keep this one
-        m_timer->stop();
+        setTimer("Stop");
     }
 
 }
@@ -188,7 +188,7 @@ void Sorter::bubbleSort() {
             }
             std::cout << ":D" << std::endl;
             // keep this one
-            m_timer->stop();
+            setTimer("Stop");
         }
     }
 }
@@ -220,7 +220,7 @@ void Sorter::insertionSort() {
         }
         std::cout << ":D" << std::endl;
         // keep this one
-        m_timer->stop();
+        setTimer("Stop");
     }else{
         counter++;
         comparator++;
@@ -306,7 +306,7 @@ void Sorter::heapSort() {
         }
         std::cout << ":D" << std::endl;
         // keep this one
-        m_timer->stop();
+        setTimer("Stop");
     }else{
         counter--;
         std::cout << "\n";
@@ -383,7 +383,7 @@ void Sorter::mergeSort() {
               }
               std::cout << ":D" << std::endl;
               // keep this one
-              m_timer->stop();
+              setTimer("Stop");
         }
     }
 }
@@ -407,7 +407,7 @@ void Sorter::shellSort() {
         comparator /= 2;
         updateGUI();
     }else {
-        m_timer->stop();
+        setTimer("Stop");
         // Debugging
         // TODO: Replace with/add GUI message when everything works
         std::cout << "Final Result:" << std::endl;
@@ -467,7 +467,7 @@ void Sorter::countingSort() {
            }
            std::cout << "\n";
     }else{
-        m_timer->stop();
+        setTimer("Stop");
         // Debugging
         // TODO: Replace with/add GUI message when everything works
         std::cout << "Final Result:" << std::endl;
@@ -526,7 +526,7 @@ void Sorter::radixSort() {
        counter *= 10;
        tmpDataB.fill(0);
     }else {
-       m_timer->stop();
+       setTimer("Stop");
        // Debugging
        // TODO: Replace with/add GUI message when everything works
        std::cout << "Final Result:" << std::endl;

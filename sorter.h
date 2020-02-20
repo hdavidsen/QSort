@@ -11,7 +11,7 @@ public:
     //void swap(double *a, double *b);
 
 private:
-    int counter, comparator, selector, tmp;
+    int counter, comparator, selector, tmp, arraySize;
     bool initialized;
     QVector<double> tmpDataA, tmpDataB; // using double as qcpbars is being moody..
 
@@ -27,6 +27,13 @@ private slots:
     // TODO: debug/improve these two
     void countingSort() override;
     void radixSort() override;
+    // TODO: implement these
+    void gravitySort() override;
+    void cocktailSort() override;
+    void timSort() override;
+    void pigeonholeSort() override;
+    void combSort() override;
+    void bogoSort() override;
 };
 
 #endif // SORTER_H

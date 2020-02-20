@@ -16,10 +16,11 @@ public:
     ~MainWindow();
      void setSorter(int idx);
      void updateGUI();
-     // TODO: figure out how/if these can be private/protected again (setters, getters?)
-     QTimer *m_timer;
+     void setTimer(QString buttonState);
+     int getArraySize() { return arraySize; };
+
+protected:
      QVector<double> keyData, valueData, resetData; // using double because qcpbars is moody
-     int arraySize;
 
 private slots:
     void startButton();
@@ -33,13 +34,22 @@ private slots:
     virtual void shellSort() = 0;
     virtual void countingSort() = 0;
     virtual void radixSort() = 0;
+    // TODO: implement these
+    virtual void gravitySort() = 0;
+    virtual void cocktailSort() = 0;
+    virtual void timSort() = 0;
+    virtual void pigeonholeSort() = 0;
+    virtual void combSort() = 0;
+    virtual void bogoSort() = 0;
 
 private:
     Ui::MainWindow *ui;
     QCustomPlot *customPlot;
     QCPBars *myBars;
     QCPTextElement *title;
+    QTimer *m_timer;
     bool isMoved;
+    int arraySize;
 };
 
 #endif // MAINWINDOW_H
