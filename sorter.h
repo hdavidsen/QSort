@@ -3,7 +3,6 @@
 
 #include "mainwindow.h"
 
-
 class Sorter : public MainWindow {
      Q_OBJECT
 public:
@@ -12,10 +11,9 @@ public:
     //void swap(double *a, double *b);
 
 private:
-    int counter, comparator, selector;
-    double tmp;
+    int counter, comparator, selector, tmp;
     bool initialized;
-    QVector<double> tmpDataA, tmpDataB;
+    QVector<double> tmpDataA, tmpDataB; // using double as qcpbars is being moody..
 
 private slots:
     void resetButton() override;
@@ -25,7 +23,6 @@ private slots:
     void insertionSort() override;
     void heapSort() override;
     void mergeSort() override;
-    void bucketSort() override;
     void shellSort() override;
     // TODO: debug/improve these two
     void countingSort() override;

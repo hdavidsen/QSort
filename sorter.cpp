@@ -1,5 +1,4 @@
 #include "sorter.h"
-#include <iostream>
 
 Sorter::Sorter(QWidget *parent) : MainWindow(parent) {
     counter = 0;
@@ -389,10 +388,6 @@ void Sorter::mergeSort() {
     }
 }
 
-void Sorter::bucketSort() {
-
-}
-
 void Sorter::shellSort() {
     if(!initialized){
         comparator = arraySize/2;
@@ -426,7 +421,7 @@ void Sorter::shellSort() {
 
 void Sorter::countingSort() {
     if(!initialized) {
-        auto getMax = [=]() -> double {
+        auto getMax = [=]() -> int {
             int max = valueData[0];
             for(int i=1; i<arraySize; i++) {
                 if(max < valueData[i])
@@ -435,7 +430,7 @@ void Sorter::countingSort() {
             return max;
         };
 
-        auto getMin = [=]() -> double {
+        auto getMin = [=]() -> int {
             int min = valueData[0];
             for(int i=1; i<arraySize; i++) {
                 if(min > valueData[i])
@@ -443,7 +438,6 @@ void Sorter::countingSort() {
             }
             return min;
         };
-        // TODO: figure out how to integrate double/floating/char (lav prio)
         int max = getMax();
         int min = getMin();
         int range = max - min + 1;
@@ -485,7 +479,6 @@ void Sorter::countingSort() {
 }
 
 // the vector is currently casted to int and will ignore all decimals etc..
-// TODO: figure out how to sort using types, not only int
 void Sorter::radixSort() {
     if(!initialized) {
         auto getMax = [=]() -> int {

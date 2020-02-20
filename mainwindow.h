@@ -16,9 +16,9 @@ public:
     ~MainWindow();
      void setSorter(int idx);
      void updateGUI();
-     // TODO: figure out how/if these can be private again
+     // TODO: figure out how/if these can be private/protected again (setters, getters?)
      QTimer *m_timer;
-     QVector<double> keyData, valueData, resetData;
+     QVector<double> keyData, valueData, resetData; // using double because qcpbars is moody
      int arraySize;
 
 private slots:
@@ -30,7 +30,6 @@ private slots:
     virtual void insertionSort() = 0;
     virtual void heapSort() = 0;
     virtual void mergeSort() = 0;
-    virtual void bucketSort() = 0;
     virtual void shellSort() = 0;
     virtual void countingSort() = 0;
     virtual void radixSort() = 0;

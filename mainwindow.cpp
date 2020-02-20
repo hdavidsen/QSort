@@ -31,14 +31,14 @@ MainWindow::MainWindow(QWidget *parent) :
     // Setting up the bar plot
     myBars = new QCPBars(customPlot->xAxis, customPlot->yAxis);
     // This is now done by default in qcustomplot.cpp (line 23662-236645)
-    // myBars->setPen(Qt::NoPen);
-    // myBars->setBrush(QColor("#3E9DE5"));
-    // myBars->setWidth(1);
+        // myBars->setPen(Qt::NoPen);
+        // myBars->setBrush(QColor("#3E9DE5"));
+        // myBars->setWidth(1);
 
     // Misc setup
     ui->delayBox->setToolTip("Delay (ms)\nMax: 5000\nMin: 10");
     // This is now done by default in qcustomplot.cpp (line 12875)
-    // customPlot->setBackground(QColor("#DCE0E1"));
+        // customPlot->setBackground(QColor("#DCE0E1"));
     customPlot->xAxis->setVisible(false);
     /***********************************************************************************************/
 
@@ -55,9 +55,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //valueData << 4 << 10 << 3 << 5 << 1;
     resetData = valueData;
     arraySize = valueData.size();
-    for (int i=1; i<=arraySize; i++) {
+    for (int i=1; i<=arraySize; i++)
         keyData << i;
-    }
 
     updateGUI();
     // Rescale to fit plots after adding them to the axis
